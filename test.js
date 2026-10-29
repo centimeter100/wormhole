@@ -28,23 +28,12 @@ globalThis.shouldPrintRNG = false;
 globalThis.shoudPrintTrace = false;
 globalThis.nextProb = nextProb;
 
-function u(e) {
+function u(e, fromBattle = false) {
   console.log("Initialize with seed: " + e);
   
   let t = e >>> 0;
-  globalThis.printSeed = function() { 
-    console.log("Current state: " + t);
-
-    let { prob } = nextProb(t);
-
-    console.log("Next random number: " + prob);
-  }
-
-  globalThis.getRNGState = function() {
-    return t;
-  }
-  
-  return {
+  let obj = {
+    seed = e,
     next() {
       let { next, prob } = nextProb(t);
       t = next;
@@ -58,8 +47,18 @@ function u(e) {
       }
       
       return prob;
+    },
+
+    getState() {
+      return t;
     }
   }
+
+  if (fromBattle) {
+    globalThis.rng = obj;
+  }
+
+  return obj;
 }
 function d(e) {
   let t = 2166136261;
@@ -5181,7 +5180,7 @@ function li(e) {
   t
 }
 function ui(e) {
-  let t = u(e.seed),
+  let t = u(e.seed, true),
   n = e.mod ?? null,
   r = e.twist ?? null,
   i = e.aiLevel ?? 1,
