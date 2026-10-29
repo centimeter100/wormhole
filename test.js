@@ -24,6 +24,8 @@ function nextProb(t) {
   return { next: new_t, prob: final };
 }
 
+globalThis.shouldPrintRNG = false;
+globalThis.shoudPrintTrace = false;
 globalThis.nextProb = nextProb;
 
 function u(e) {
@@ -45,11 +47,13 @@ function u(e) {
   return {
     next() {
       let { next, prob } = nextProb(t);
-      console.log("RNG updated: " + t + " -> " + next);
       t = next;
-      console.log("RNG returned: " + prob);
+      if (globalThis.shouldPrintRNG) {
+        console.log("RNG updated: " + t + " -> " + next);
+        console.log("RNG returned: " + prob);
+      }
 
-      if (globalThis.printSeedTrace) {
+      if (globalThis.shoudPrintTrace) {
         console.trace();
       }
       
