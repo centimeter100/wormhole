@@ -1,7 +1,7 @@
 import {
   r as e
 }
-from'./rolldown-runtime-XKyaHtl9.js';
+from'https://osugacha.com/assets/rolldown-runtime-XKyaHtl9.js';
 import {
   F as t,
   L as n,
@@ -12,11 +12,21 @@ import {
   u as s,
   z as c
 }
-from'./overlays-CTURBTFB.js';
+from'https://osugacha.com/assets/overlays-CTURBTFB.js';
 var l = e(a(), 1);
 function u(e) {
   console.log("FUCK YOU!");
   let t = e >>> 0;
+  globalThis.printSeed = function() { 
+    console.log("Current state: " + t);
+    
+    let e = t + 1831565813 >>> 0;
+    e = Math.imul(e ^ e >>> 15, e | 1);
+    e ^= e + Math.imul(e ^ e >>> 7, e | 61);
+    let final = ((e ^ e >>> 14) >>> 0) / 2**32;
+
+    console.log("Next random number: " + final);
+  }
   return {
     next() {
       t = t + 1831565813 >>> 0;
