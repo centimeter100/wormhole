@@ -15,7 +15,7 @@ import {
 from'https://osugacha.com/assets/overlays-CTURBTFB.js';
 var l = e(a(), 1);
 function u(e) {
-  console.log("FUCK YOU!");
+  console.log("FUCK YOU!" + e);
   let t = e >>> 0;
   globalThis.printSeed = function() { 
     console.log("Current state: " + t);
