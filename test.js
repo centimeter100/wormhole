@@ -24,8 +24,11 @@ function nextProb(t) {
   return { next: new_t, prob: final };
 }
 
+globalThis.nextProb = nextProb;
+
 function u(e) {
-  console.log("FUCK YOU!" + e);
+  console.log("Initialize with seed: " + e);
+  
   let t = e >>> 0;
   globalThis.printSeed = function() { 
     console.log("Current state: " + t);
@@ -34,6 +37,11 @@ function u(e) {
 
     console.log("Next random number: " + prob);
   }
+
+  globalThis.getRNGState = function() {
+    return t;
+  }
+  
   return {
     next() {
       let { next, prob } = nextProb(t);
