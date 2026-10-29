@@ -29,11 +29,16 @@ function u(e) {
   }
   return {
     next() {
-      t = t + 1831565813 >>> 0;
+      let new_t = t + 1831565813 >>> 0;
+      console.log("RNG updated: " + t + " -> " + new_t);
+      t = new_t;
       let e = t;
-      return e = Math.imul(e ^ e >>> 15, e | 1),
-      e ^= e + Math.imul(e ^ e >>> 7, e | 61),
-      ((e ^ e >>> 14) >>> 0) / 2**32
+      let final = e = Math.imul(e ^ e >>> 15, e | 1),
+        e ^= e + Math.imul(e ^ e >>> 7, e | 61),
+        ((e ^ e >>> 14) >>> 0) / 2**32;
+
+      console.log("RNG returned: " + final);
+      return final;
     }
   }
 }
