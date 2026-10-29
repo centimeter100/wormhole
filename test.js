@@ -38,6 +38,11 @@ function u(e) {
       let final = ((e ^ e >>> 14) >>> 0) / 2**32;
 
       console.log("RNG returned: " + final);
+
+      if (globalThis.printSeedTrace) {
+        console.trace();
+      }
+      
       return final;
     }
   }
