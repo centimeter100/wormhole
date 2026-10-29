@@ -5640,6 +5640,7 @@ function ui(e) {
     ee = E(i, `slow`),
     f = k(e, `ss`) &&
     e.ssOff === 0,
+    // 暴击率计算
     te = l.critRate + (f ? 0.15 : 0) + (l.passive === `deadeye` && O(i) < 0.5 ? C.deadeyeVsLow * A(e) : 0) + (r === `sakura` ? Z.sakura : 0),
     p = l.critDmg + (f ? 0.35 : 0) + (l.fx.pfCritDmg && O(e) > 0.8 ? l.fx.pfCritDmg : 0) + (k(e, `crit`) && d ? 0.4 : 0) + (l.passive === `deadeye` && O(i) < 0.5 ? C.deadeyeVsLowDmg * A(e) : 0),
     m = e.sureCrit ||
@@ -5648,6 +5649,7 @@ function ui(e) {
     re(Z.nineEvery) ||
     he(e) &&
     _e(e) ||
+    // 暴击率检验
     t.next() < te;
     e.sureCrit &&= !1;
     let h = D(e, `dmg`);
@@ -6512,6 +6514,7 @@ function ui(e) {
       t.charges < G.rallyMax &&
       t.charges++;
       if (
+        // 安可几率计算: A 函数是计算安可概率倍率, 有星魂就是 1.3 倍, 否则是 1 倍.
         e.f.passive === `encore` &&
         e.hp > 0 &&
         t.next() < C.encore * A(e) &&
