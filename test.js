@@ -33,7 +33,7 @@ function u(e, fromBattle = false) {
   
   let t = e >>> 0;
   let obj = {
-    seed = e,
+    seed: e,
     next() {
       let { next, prob } = nextProb(t);
       t = next;
