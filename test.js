@@ -17,7 +17,7 @@ var l = e(a(), 1);
 
 function nextProb(t) {
   let new_t = t + 1831565813 >>> 0;
-  let e = t;
+  let e = new_t;
   e = Math.imul(e ^ e >>> 15, e | 1);
   e ^= e + Math.imul(e ^ e >>> 7, e | 61);
   let final = ((e ^ e >>> 14) >>> 0) / 2**32;
