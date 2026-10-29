@@ -33,9 +33,9 @@ function u(e) {
       console.log("RNG updated: " + t + " -> " + new_t);
       t = new_t;
       let e = t;
-      let final = e = Math.imul(e ^ e >>> 15, e | 1),
-        e ^= e + Math.imul(e ^ e >>> 7, e | 61),
-        ((e ^ e >>> 14) >>> 0) / 2**32;
+      e = Math.imul(e ^ e >>> 15, e | 1);
+      e ^= e + Math.imul(e ^ e >>> 7, e | 61);
+      let final = ((e ^ e >>> 14) >>> 0) / 2**32;
 
       console.log("RNG returned: " + final);
       return final;
