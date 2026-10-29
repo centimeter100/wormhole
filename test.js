@@ -14,36 +14,38 @@ import {
 }
 from'https://osugacha.com/assets/overlays-CTURBTFB.js';
 var l = e(a(), 1);
+
+function nextProb(t) {
+  let new_t = t + 1831565813 >>> 0;
+  let e = t;
+  e = Math.imul(e ^ e >>> 15, e | 1);
+  e ^= e + Math.imul(e ^ e >>> 7, e | 61);
+  let final = ((e ^ e >>> 14) >>> 0) / 2**32;
+  return { next: new_t, prob: final };
+}
+
 function u(e) {
   console.log("FUCK YOU!" + e);
   let t = e >>> 0;
   globalThis.printSeed = function() { 
     console.log("Current state: " + t);
-    
-    let e = t + 1831565813 >>> 0;
-    e = Math.imul(e ^ e >>> 15, e | 1);
-    e ^= e + Math.imul(e ^ e >>> 7, e | 61);
-    let final = ((e ^ e >>> 14) >>> 0) / 2**32;
 
-    console.log("Next random number: " + final);
+    let { prob } = nextProb(t);
+
+    console.log("Next random number: " + prob);
   }
   return {
     next() {
-      let new_t = t + 1831565813 >>> 0;
-      console.log("RNG updated: " + t + " -> " + new_t);
-      t = new_t;
-      let e = t;
-      e = Math.imul(e ^ e >>> 15, e | 1);
-      e ^= e + Math.imul(e ^ e >>> 7, e | 61);
-      let final = ((e ^ e >>> 14) >>> 0) / 2**32;
-
-      console.log("RNG returned: " + final);
+      let { next, prob } = nextProb(t);
+      console.log("RNG updated: " + t + " -> " + next);
+      t = next;
+      console.log("RNG returned: " + prob);
 
       if (globalThis.printSeedTrace) {
         console.trace();
       }
       
-      return final;
+      return prob;
     }
   }
 }
