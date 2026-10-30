@@ -1,0 +1,1 @@
+var e={startingBalance:500,dailyReward:250,marketFeeBps:500,minListingPrice:1,maxListingPrice:1e7,packSlots:{intervalSeconds:60,cap:10}},t={days:3,maxActive:50};function n(e,t){return Math.floor(e*t/1e4)}var r={price:200,dailyLimit:25};export{n as i,t as n,r,e as t};

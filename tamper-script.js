@@ -7,13 +7,13 @@
 // @include      https://cdn.jsdelivr.net/gh/*
 // @run-at       document-idle
 // @grant unsafeWindow
-// @webRequest   { "selector": "https://osugacha.com/assets/rpg-*.js", "action": { "redirect": "https://cdn.jsdelivr.net/gh/centimeter100/wormhole@e2cc9a4/test.js" }}
+// @webRequest   { "selector": "https://osugacha.com/assets/rpg-CXlWCd94.js", "action": { "redirect": "https://cdn.jsdelivr.net/gh/centimeter100/wormhole@e2cc9a4/rpg-patched.js" }}
 // ==/UserScript==
 
 (() => {
   'use strict';
 
-  const ORIGIN = 'https://osugacha.com/assets/rpg-D1GQD8jb.js';
+  const ORIGIN = 'https://osugacha.com/assets/rpg-CXlWCd94.js';
 
   // vibing!
 
@@ -53,49 +53,51 @@
 
   const panel = document.createElement('div');
   panel.className = 'panel';
-  panel.innerHTML = `
-    <div class="title">随机数</div>
+
+  const RAND_N = 8;
+  let panelContent = `
+    <div class="title">随机数 (如果战斗页刷新后还是全 0 说明脚本需要更新)</div>
     <div class="line"><span>当前 RNG </span><span class="val" id="v-rng">0</span></div>
-    <div class="line"><span>第 1 个随机数</span><span class="val" id="v-rand1">0</span></div>
-    <div class="line"><span>第 2 个随机数</span><span class="val" id="v-rand2">0</span></div>
-    <div class="line"><span>第 3 个随机数</span><span class="val" id="v-rand3">0</span></div>
-    <div class="line"><span>第 4 个随机数</span><span class="val" id="v-rand4">0</span></div>
-    <div class="line"><span>查看随机数和概率数值, 低于概率数值则必定触发</span></div>
   `
 
+  for (let i = 0; i < RAND_N; ++ i) {
+    panelContent = panelContent +
+      `<div class="line"><span>第 ${i + 1} 个随机数</span><span class="val" id="v-rand${i}">0</span></div>`
+  }
+
+  panelContent = panelContent +
+    `<div class="line"><span>查看随机数和概率(如暴击率)数值, 低于概率数值则必定触发. 暴击率需要额外计算其他增益 (如 SS mod 组合)</span></div>`
+
+  panel.innerHTML = panelContent;
   shadow.appendChild(panel);
 
   const elRng = panel.querySelector('#v-rng');
-  const elRand1 = panel.querySelector('#v-rand1');
-  const elRand2 = panel.querySelector('#v-rand2');
-  const elRand3 = panel.querySelector('#v-rand3');
-  const elRand4 = panel.querySelector('#v-rand4');
+  const elRands = []
+
+  for (let i = 0; i < RAND_N; ++ i) {
+    elRands.push(panel.querySelector(`#v-rand${i}`))
+  }
 
   let rafId = null;
+  let lastState = 0;
 
   function tick(now) {
     let rng = unsafeWindow.rng;
     let nextProb = unsafeWindow.nextProb;
 
     if (rng && nextProb) {
-        let initState = rng.getState();
-        let state = initState;
+      let state = rng.getState();
+      if (state != lastState) {
+        lastState = state;
+        elRng.textContent = state;
         
-        let rands = [];
-        
-        for (let i = 0; i < 4; ++ i) {
+        for (let i = 0; i < RAND_N; ++ i) {
           let step = nextProb(state);
           let rand = step.prob;
           state = step.next;
-          rands.push(rand);
+          elRands[i].textContent = `${(rand * 100).toFixed(4)} %`;
         }
-        
-        // 只在需要时更新，避免无谓的写入
-        elRng.textContent = initState;
-        elRand1.textContent = `${(rands[0] * 100).toFixed(4)} %`
-        elRand2.textContent = `${(rands[1] * 100).toFixed(4)} %`
-        elRand3.textContent = `${(rands[2] * 100).toFixed(4)} %`
-        elRand4.textContent = `${(rands[3] * 100).toFixed(4)} %`
+      }
     }
 
     // 继续下一帧

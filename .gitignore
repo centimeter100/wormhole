@@ -1,1 +1,6 @@
 NOTES.md
+
+/docs
+/.venv/
+/.direnv/
+/node_modules/

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "pretty-fast": "^0.2.7"
+  }
+}

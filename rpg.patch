@@ -1,0 +1,75 @@
+diff --git a/./rpg-prettyed.js b/./rpg-patched.js
+index 518c031..0196cf0 100644
+--- a/./rpg-prettyed.js
++++ b/./rpg-patched.js
+@@ -1,7 +1,7 @@
+ import {
+   r as e
+ }
+-from'./rolldown-runtime-XKyaHtl9.js';
++from'https://osugacha.com/assets/rolldown-runtime-XKyaHtl9.js';
+ import {
+   F as t,
+   L as n,
+@@ -12,18 +12,53 @@ import {
+   u as s,
+   z as c,
+ }
+-from'./overlays-DU6_1PFU.js';
++from'https://osugacha.com/assets/overlays-DU6_1PFU.js';
+ var l = e(a(), 1);
+-function u(e) {
++
++function nextProb(t) {
++  let new_t = t + 1831565813 >>> 0;
++  let e = new_t;
++  e = Math.imul(e ^ e >>> 15, e | 1);
++  e ^= e + Math.imul(e ^ e >>> 7, e | 61);
++  let final = ((e ^ e >>> 14) >>> 0) / 2**32;
++  return { next: new_t, prob: final };
++}
++
++globalThis.shouldPrintRNG = false;
++globalThis.shoudPrintTrace = false;
++globalThis.nextProb = nextProb;
++
++function u(e, fromBattle = false) {
++  console.log("Initialize with seed: " + e);
++  
+   let t = e >>> 0;
+-  return {
++  let obj = {
++    seed: e,
+     next() {
+-      t = (t + 1831565813) >>> 0;
+-      let e = t;
+-      return ((e = Math.imul(e ^ (e >>> 15), e | 1)), (e ^= e + Math.imul(e ^ (e >>> 7), e | 61)), ((e ^ (e >>> 14)) >>> 0) / 2**32
+-      );
++      let { next, prob } = nextProb(t);
++      t = next;
++      if (globalThis.shouldPrintRNG) {
++        console.log("RNG updated: " + t + " -> " + next);
++        console.log("RNG returned: " + prob);
++      }
++
++      if (globalThis.shoudPrintTrace) {
++        console.trace();
++      }
++      
++      return prob;
+     },
+-  };
++
++    getState() {
++      return t;
++    }
++  }
++
++  if (fromBattle) {
++    globalThis.rng = obj;
++  }
++
++  return obj;
+ }
+ function d(e) {
+   let t = 2166136261;
