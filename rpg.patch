@@ -73,3 +73,12 @@ index 518c031..0196cf0 100644
  }
  function d(e) {
    let t = 2166136261;
+@@ -4872,7 +4872,7 @@ function li(e) {
+   );
+ }
+ function ui(e) {
+-  let t = u(e.seed),
++  let t = u(e.seed, true),
+   n = e.mod ?? null,
+   r = e.twist ?? null,
+   i = e.aiLevel ?? 1,

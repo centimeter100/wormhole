@@ -7,7 +7,7 @@
 // @include      https://cdn.jsdelivr.net/gh/*
 // @run-at       document-idle
 // @grant unsafeWindow
-// @webRequest   { "selector": "https://osugacha.com/assets/rpg-CXlWCd94.js", "action": { "redirect": "https://cdn.jsdelivr.net/gh/centimeter100/wormhole@e2cc9a4/rpg-patched.js" }}
+// @webRequest   { "selector": "https://osugacha.com/assets/rpg-CXlWCd94.js", "action": { "redirect": "https://cdn.jsdelivr.net/gh/centimeter100/wormhole@f0cb887/rpg-patched.js" }}
 // ==/UserScript==
 
 (() => {

@@ -4872,7 +4872,7 @@ function li(e) {
   );
 }
 function ui(e) {
-  let t = u(e.seed),
+  let t = u(e.seed, true),
   n = e.mod ?? null,
   r = e.twist ?? null,
   i = e.aiLevel ?? 1,
